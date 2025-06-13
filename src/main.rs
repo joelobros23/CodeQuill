@@ -1,4 +1,4 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, App, HttpResponse, HttpServer, Responder, web};
 use actix_web_actors::ws;
 use uuid::Uuid;
 use serde::{Deserialize, Serialize};
@@ -16,17 +16,16 @@ async fn health_check() -> impl Responder {
     HttpResponse::Ok().json(response)
 }
 
-/// Define websocket handshake and route
-#[get("/ws")]
+
+/// Define HTTP route for websocket handshake
+#[get("/ws/")]
 async fn websocket_route(req: web::HttpRequest, stream: web::Payload) -> impl Responder {
     ws::start(websocket::MyWebSocket::new(), &req, stream)
 }
 
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("Starting server");
-
     HttpServer::new(|| {
         App::new()
             .service(health_check)

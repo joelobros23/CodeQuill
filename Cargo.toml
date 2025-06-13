@@ -3,10 +3,11 @@ name = "CodeQuill"
 version = "0.1.0"
 edition = "2021"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
 [dependencies]
-actix-web = "4"
-actix-web-actors = "4"
-actix = "0.13"
-uuid = { version = "1.3.0", features = ["v4"] }
-log = "0.4"
-env_logger = "0.10"
+actix-web = "4.11.0"
+actix-web-actors = "4.3.1+deprecated"
+serde = { version = "1.0", features = ["derive"] }
+uuid = { version = "1.0", features = ["serde", "v4"] }
+actix = "0.13.5"
