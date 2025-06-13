@@ -7,54 +7,39 @@ use uuid::Uuid;
 pub struct User {
     pub id: Uuid,
     pub username: String,
-    // Add other user-related fields as needed (e.g., email, password hash)
+    // Add other user-related fields like email, password hash, etc.
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Document {
     pub id: Uuid,
+    pub owner_id: Uuid,
     pub title: String,
-    pub content: String, // Store code or text content here
-    pub owner_id: Uuid,   // User ID of the document owner
-    // Add other document-related fields as needed (e.g., creation date, last modified date)
+    pub content: String,
+    // Add metadata like creation date, last modified date, etc.
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Message {
     pub id: Uuid,
     pub sender_id: Uuid,
-    pub recipient_id: Uuid,
+    pub document_id: Uuid,
     pub content: String,
-    // Add other message-related fields as needed (e.g., timestamp)
+    // Add timestamp, message type, etc.
 }
 
-impl User {
-    pub fn new(username: String) -> Self {
-        User {
-            id: Uuid::new_v4(),
-            username,
-        }
-    }
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct CollaborationRequest {
+    pub id: Uuid,
+    pub document_id: Uuid,
+    pub sender_id: Uuid,
+    pub receiver_id: Uuid,
+    pub status: CollaborationRequestStatus, // e.g., Pending, Accepted, Rejected
 }
 
-impl Document {
-    pub fn new(title: String, content: String, owner_id: Uuid) -> Self {
-        Document {
-            id: Uuid::new_v4(),
-            title,
-            content,
-            owner_id,
-        }
-    }
-}
-
-impl Message {
-    pub fn new(sender_id: Uuid, recipient_id: Uuid, content: String) -> Self {
-        Message {
-            id: Uuid::new_v4(),
-            sender_id,
-            recipient_id,
-            content,
-        }
-    }
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+pub enum CollaborationRequestStatus {
+    Pending,
+    Accepted,
+    Rejected,
 }
