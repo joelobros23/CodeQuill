@@ -7,25 +7,25 @@ use uuid::Uuid;
 pub struct User {
     pub id: Uuid,
     pub username: String,
-    // Add other user-related fields here (e.g., email, password hash)
+    // Add other user-related fields as needed (e.g., email, password hash)
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Document {
     pub id: Uuid,
     pub title: String,
-    pub content: String,
-    pub owner_id: Uuid, // Foreign key referencing User.id
-    // Add other document-related fields here (e.g., creation_date, last_modified_date)
+    pub content: String, // Store code or text content here
+    pub owner_id: Uuid,   // User ID of the document owner
+    // Add other document-related fields as needed (e.g., creation date, last modified date)
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Message {
     pub id: Uuid,
-    pub sender_id: Uuid, // Foreign key referencing User.id
+    pub sender_id: Uuid,
+    pub recipient_id: Uuid,
     pub content: String,
-    pub timestamp: String, // Consider using a DateTime type for better timestamp handling
-    // Add other message-related fields here (e.g., recipient_id, conversation_id)
+    // Add other message-related fields as needed (e.g., timestamp)
 }
 
 impl User {
@@ -49,12 +49,12 @@ impl Document {
 }
 
 impl Message {
-    pub fn new(sender_id: Uuid, content: String, timestamp: String) -> Self {
+    pub fn new(sender_id: Uuid, recipient_id: Uuid, content: String) -> Self {
         Message {
             id: Uuid::new_v4(),
             sender_id,
+            recipient_id,
             content,
-            timestamp,
         }
     }
 }
